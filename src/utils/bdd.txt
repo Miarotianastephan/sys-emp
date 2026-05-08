@@ -1,0 +1,26 @@
+Table empPresenceCheckin : idUser, debutCheckin(dateHeure), finCheckin(dateHeure)
+
+Table configGlobal (Table Horizontal): 
+    baremePointBonus(75pts), 
+    pourcentageBonusParSalaire(25%), 
+    heureEntrer(9:00), 
+    tolerenceRetard(10minutes), 
+    heureSortie(18:10)
+
+Table configAbsence : typeAbs(Enum: off/congee), jAutoriser, jAvantAutorisation
+
+Table empAbsence : 
+idConfigAbsense, idUser(demandeur), idUser(validateur), 
+dateDemande, dateAbsense, status(Enum: attente/valider/refuser), prioritee(Enum), Motif
+
+Table typePenaliteAbsence : typePenalite(Enum: P1, P2, ...), titre(P2 = 1er averti...), malus
+
+Table empPenaliteAbsenses : idUser, idTypePenaliteAbs, dateObtention
+
+Table configFerier : dateFerie, descriFeriee
+
+Table confirmHeureSupp : heureSortie, estValid, MotifSup
+
+Table configEmpPoint :  typePoint, bonus, malus, estFixe, estValid, dateCreation, dateArchivage
+
+Table empPoint : idUser, idConfigEmpPoint, point, dateFinSemaine

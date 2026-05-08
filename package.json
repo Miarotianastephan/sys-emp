@@ -1,0 +1,32 @@
+{
+  "name": "sys-emp",
+  "version": "1.0.0",
+  "description": "backend emp sys ",
+  "license": "ISC",
+  "author": "panda",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "db:migrate": "npx sequelize db:migrate",
+    "db:seed": "npx sequelize db:seed:all",
+    "db:reset": "npx sequelize db:migrate:undo:all && npx sequelize db:migrate && npx sequelize db:seed:all"
+  },
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
+    "joi": "^18.1.2",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.10.1",
+    "mysql2": "^3.22.3",
+    "sequelize": "^6.37.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "sequelize-cli": "^6.6.5"
+  }
+}
