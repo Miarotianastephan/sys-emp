@@ -131,7 +131,7 @@ async function enregistrerSortie(idUser, payload) {
 }
 
 async function statutDuJour(idUser) {
-  const { debut, fin } = bornesJourneeLocale(); // ← fuseau corrigé
+  const { debut, fin } = bornesJourneeLocale();
 
   const checkin = await EmpPresenceCheckin.findOne({
     where: {
