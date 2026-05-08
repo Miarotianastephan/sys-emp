@@ -1,0 +1,235 @@
+{
+  "api": {
+    "baseUrl": "http://localhost:3000/api",
+    "description": "Documentation des endpoints API pour l'intégration frontend - Système de Gestion du Personnel"
+  },
+  "endpoints": {
+    "auth": {
+      "login": {
+        "method": "POST",
+        "url": "/auth/login",
+        "description": "Authentification utilisateur",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+            "email": "jean@societe.mg",
+            "motDePasse": "motdepasse123"
+        },
+        "response": {
+            "success": true,
+            "message": "Connexion réussie",
+            "data": {
+                "token": "token",
+                "user": {
+                    "id": 1,
+                    "nom": "Rakoto",
+                    "prenom": "Jean",
+                    "email": "jean@societe.mg",
+                    "rang": {
+                        "id": 1,
+                        "niveau": 1,
+                        "libelle": "Manager général"
+                    },
+                    "poste": null,
+                    "permissions": [
+                        "CREER_TACHE",
+                        "GERER_BONUS_PENALITE",
+                        "GERER_UTILISATEURS",
+                        "POINTER_PRESENCE",
+                        "SOUMETTRE_DEMANDE",
+                        "VALIDER_CONGE",
+                        "VOIR_EQUIPE_COMPLETE",
+                        "VOIR_EQUIPE_PROPRE",
+                        "VOIR_SALAIRES",
+                        "VOIR_SES_DONNEES",
+                        "VOIR_STATS_GLOBALES"
+                    ]
+                }
+            }
+        }
+      },
+      "register": {
+        "method": "POST",
+        "url": "/auth/register",
+        "description": "Inscription nouvel utilisateur",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "body": {
+            "nom": "Rakoto",
+            "prenom": "Jean",
+            "email": "jean@societe.mg",
+            "motDePasse": "motdepasse123",
+            "dateEmbauche": "2026-01-01",
+            "idRang": 1
+        },
+        "response": {
+            "success": true,
+            "message": "Compte créé avec succès",
+            "data": {
+                "estActif": true,
+                "id": 1,
+                "nom": "Rakoto",
+                "prenom": "Jean",
+                "email": "jean@societe.mg",
+                "dateEmbauche": "2026-01-01",
+                "idRang": 1,
+                "updatedAt": "2026-05-04T13:30:52.626Z",
+                "createdAt": "2026-05-04T13:30:52.626Z"
+            }
+        }
+      },
+      "profile": {
+        "method": "GET",
+        "url": "/auth/profile",
+        "description": "Récupérer le profil utilisateur connecté",
+        "headers": {
+          "Authorization": "Bearer jwt_token"
+        },
+        "response": {"lavabe" : "lavabe"}
+      }
+    },
+    "presence": {
+      "entree": {
+        "method": "POST",
+        "url": "/presence/entree",
+        "description": "Enregistrer un pointage d'entrée",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer jwt_token"
+        },
+        "body": {
+            "methode": "wifi",
+            "ssidReseau": "STARLINK BOU_3.1",
+            "sourceDevice": "mobile"
+        },
+        "response": {
+            "success": true,
+            "message": "Pointage d'entrée enregistré",
+            "data": {
+                "finCheckin": null,
+                "dureeTravail": null,
+                "estAbsent": false,
+                "justification": null,
+                "id": 13,
+                "idUser": 1,
+                "debutCheckin": "2026-05-08T08:58:34.751Z",
+                "methode": "wifi",
+                "ipAddress": "::1",
+                "ssidReseau": "STARLINK BOU_3.1",
+                "sourceDevice": "mobile",
+                "latitude": null,
+                "longitude": null,
+                "estRetard": true,
+                "minutesRetard": 178,
+                "statut": "retard",
+                "estValide": true,
+                "updatedAt": "2026-05-08T08:58:34.781Z",
+                "createdAt": "2026-05-08T08:58:34.781Z",
+                "niveauConfiance": 1,
+                "messageConfiance": "Réseau partiellement reconnu — pointage validé"
+            }
+        }
+      },
+      "sortie": {
+        "method": "POST",
+        "url": "/presence/sortie",
+        "description": "Enregistrer un pointage de sortie",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer jwt_token"
+        },
+        "body": {
+            "sourceDevice": "mobile"
+        },
+        "response": {
+            "success": true,
+            "message": "Pointage de sortie enregistré",
+            "data": {
+                "id": 13,
+                "idUser": 1,
+                "debutCheckin": "2026-05-08T08:58:34.000Z",
+                "finCheckin": "2026-05-08T09:12:18.979Z",
+                "dureeTravail": 13,
+                "methode": "wifi",
+                "ipAddress": "::1",
+                "ssidReseau": "STARLINK BOU_3.1",
+                "sourceDevice": "mobile",
+                "latitude": null,
+                "longitude": null,
+                "estRetard": true,
+                "minutesRetard": 178,
+                "estAbsent": false,
+                "statut": "retard",
+                "justification": null,
+                "estValide": true,
+                "createdAt": "2026-05-08T08:58:34.000Z",
+                "updatedAt": "2026-05-08T09:12:19.013Z"
+            }
+        }
+      },
+      "statut": {
+        "method": "GET",
+        "url": "/presence/aujourd-hui",
+        "description": "Consulter le statut de présence du jour",
+        "headers": {
+          "Authorization": "Bearer jwt_token"
+        },
+        "response": {
+            "success": true,
+            "message": "OK",
+            "data": {
+                "aPointe": true,
+                "estSorti": true,
+                "checkin": {
+                    "id": 4,
+                    "idUser": 1,
+                    "debutCheckin": "2026-05-07T14:16:20.000Z",
+                    "finCheckin": "2026-05-07T14:29:00.000Z",
+                    "dureeTravail": 12,
+                    "methode": "wifi",
+                    "ipAddress": "::1",
+                    "ssidReseau": "STARLINK BOU_3.1",
+                    "sourceDevice": "mobile",
+                    "latitude": null,
+                    "longitude": null,
+                    "estRetard": true,
+                    "minutesRetard": 376,
+                    "estAbsent": false,
+                    "statut": "retard",
+                    "justification": null,
+                    "estValide": true,
+                    "createdAt": "2026-05-07T14:16:20.000Z",
+                    "updatedAt": "2026-05-07T14:29:00.000Z"
+                },
+                "heureEntree": "2026-05-07T14:16:20.000Z",
+                "heureSortie": "2026-05-07T14:29:00.000Z",
+                "dureeTravail": 12,
+                "estRetard": true,
+                "minutesRetard": 376,
+                "estValide": true
+            }
+        }
+      }
+    },
+    "health": {
+      "check": {
+        "method": "GET",
+        "url": "/health",
+        "description": "Vérification de l'état du serveur",
+        "response": {
+          "status": "OK",
+          "env": "development",
+          "timestamp": "2026-05-08T08:00:00.000Z"
+        }
+      }
+    }
+  },
+  "notes": {
+    "auth": "Tous les endpoints nécessitent un token JWT dans le header Authorization sauf /auth/login",
+    "presence": "Les coordonnées GPS sont optionnelles mais recommandées pour la validation",
+    "errors": "En cas d'erreur, la réponse contient { success: false, error: 'message' }",
+    "timezone": "Toutes les dates sont en UTC, les calculs tiennent compte du fuseau Madagascar (GMT+3)"
+  }
+}
