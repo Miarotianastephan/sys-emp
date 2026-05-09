@@ -18,6 +18,7 @@ const ConfigFerier          = require('./configFerier.model');
 const ConfirmHeureSupp      = require('./confirmHeureSupp.model');
 const ConfigEmpPoint        = require('./configEmpPoint.model');
 const EmpPoint              = require('./empPoint.model');
+const Notification          = require('./notification.model');
 
 // ── Associations ───────────────────────────────────────────
 
@@ -105,6 +106,10 @@ EmpPoint.belongsTo(ConfigEmpPoint, { foreignKey: 'idConfigEmpPoint', as: 'config
 User.hasMany(EmpPoint, { foreignKey: 'idUser', as: 'points' });
 EmpPoint.belongsTo(User, { foreignKey: 'idUser', as: 'user' });
 
+// User → Notification (One-to-Many)
+User.hasMany(Notification, { foreignKey: 'idUser', as: 'notifications' });
+Notification.belongsTo(User, { foreignKey: 'idUser', as: 'user' });
+
 module.exports = {
   sequelize,
   Rang,
@@ -122,4 +127,5 @@ module.exports = {
   ConfirmHeureSupp,
   ConfigEmpPoint,
   EmpPoint,
+  Notification,
 };

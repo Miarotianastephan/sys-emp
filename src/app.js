@@ -10,6 +10,8 @@ const env          = require('./config/env');
 // ── Import des routes ──────────────────────────────────────
 const authRoutes = require('./modules/auth/auth.routes');
 const presenceRoutes = require('./modules/presence/presence.routes');
+const absencesRoutes = require('./modules/absences/absences.routes');
+const notificationsRoutes = require('./modules/notifications/notification.routes');
 // const userRoutes   = require('./modules/users/user.routes');    // à venir
 // const presenceRoutes = require('./modules/presence/presence.routes');
 
@@ -31,6 +33,8 @@ if (!env.isProd) {
 // ── Routes ────────────────────────────────────────────────
 app.use('/api/auth', authRoutes);
 app.use('/api/presence', presenceRoutes);
+app.use('/api/absences', absencesRoutes);
+app.use('/api/notifications', notificationsRoutes);
 // app.use('/api/users',    userRoutes);
 // app.use('/api/presence', presenceRoutes);
 

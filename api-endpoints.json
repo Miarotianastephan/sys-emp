@@ -211,6 +211,301 @@
                 "estValide": true
             }
         }
+      },    
+      "statsMensuelles": {
+        "method": "GET",
+        "url": "/presence/stats?mois=5&annee=2026",
+        "description": "Statistiques mensuelles de présence",
+        "headers": {
+          "Authorization": "Bearer jwt_token"
+        },
+        "response": {
+          "success": true,
+          "data": {
+            "mois": 5,
+            "annee": 2026,
+            "totalJoursPresents": 20,
+            "joursComplets": 18,
+            "totalRetards": 2,
+            "totalMinutesTravail": 9600,
+            "totalHeuresTravail": 160,
+            "joursOuvrables": 22,
+            "tauxAssiduite": 91,
+            "pointagesSuspects": 0,
+            "historique": [
+              {
+                "id": 1,
+                "debutCheckin": "2026-05-08T06:00:00.000Z",
+                "finCheckin": "2026-05-08T15:10:00.000Z",
+                "dureeTravail": 510,
+                "methode": "manuel",
+                "estRetard": false,
+                "minutesRetard": 0,
+                "statut": "present",
+                "estValide": true
+              }
+            ]
+          }
+        }
+      },
+      "equipe": {
+        "method": "GET",
+        "url": "/presence/equipe?mois=5&annee=2026",
+        "description": "Statistiques d'équipe (manager seulement)",
+        "headers": {
+          "Authorization": "Bearer jwt_token_manager"
+        },
+        "response": {
+          "success": true,
+          "data": [
+            {
+              "user": {
+                "id": 2,
+                "nom": "Martin",
+                "prenom": "Marie",
+                "email": "marie.martin@entreprise.com"
+              },
+              "stats": {
+                "mois": 5,
+                "annee": 2026,
+                "totalJoursPresents": 20,
+                "joursComplets": 18,
+                "totalRetards": 1,
+                "totalMinutesTravail": 9500,
+                "totalHeuresTravail": 158,
+                "joursOuvrables": 22,
+                "tauxAssiduite": 91,
+                "pointagesSuspects": 0,
+                "historique": []
+              }
+            }
+          ]
+        }
+      }
+    },
+    "absences": {
+      "creerDemande": {
+        "method": "POST",
+        "url": "/absences/demande",
+        "description": "Créer une nouvelle demande d'absence",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer jwt_token"
+        },
+        "body": {
+          "idConfigAbsence": 1,
+          "dateDebutAbsence": "2026-05-15",
+          "dateFinAbsence": "2026-05-16",
+          "typeJournee": "JOURNEE",
+          "motif": "Raison personnelle"
+        },
+        "response": {
+          "success": true,
+          "message": "Demande créée avec succès",
+          "data": {
+            "id": 1,
+            "idConfigAbsence": 1,
+            "idUserDemandeur": 2,
+            "dateDemande": "2026-05-09T10:00:00.000Z",
+            "dateDebutAbsence": "2026-05-15",
+            "dateFinAbsence": "2026-05-16",
+            "nombreJours": 2,
+            "typeJournee": "JOURNEE",
+            "statut": "ATTENTE",
+            "priorite": "NORMALE",
+            "motif": "Raison personnelle",
+            "commentaireValidateur": null,
+            "vueParValidateur": false,
+            "createdAt": "2026-05-09T10:00:00.000Z",
+            "updatedAt": "2026-05-09T10:00:00.000Z"
+          }
+        }
+      },
+      "mesDemandes": {
+        "method": "GET",
+        "url": "/absences/mes-demandes",
+        "description": "Récupérer mes demandes d'absence",
+        "headers": {
+          "Authorization": "Bearer jwt_token"
+        },
+        "response": {
+          "success": true,
+          "data": [
+            {
+              "id": 1,
+              "idConfigAbsence": 1,
+              "idUserDemandeur": 2,
+              "dateDemande": "2026-05-09T10:00:00.000Z",
+              "dateDebutAbsence": "2026-05-15",
+              "dateFinAbsence": "2026-05-16",
+              "nombreJours": 2,
+              "typeJournee": "JOURNEE",
+              "statut": "ATTENTE",
+              "priorite": "NORMALE",
+              "motif": "Raison personnelle",
+              "commentaireValidateur": null,
+              "vueParValidateur": false,
+              "configAbsence": {
+                "id": 1,
+                "typeAbsence": "CONGE",
+                "libelle": "Congé annuel",
+                "joursAutorises": 30,
+                "estActif": true
+              },
+              "validateur": null
+            }
+          ]
+        }
+      },
+      "equipe": {
+        "method": "GET",
+        "url": "/absences/equipe",
+        "description": "Récupérer les demandes d'absence de mon équipe (pour validateurs)",
+        "headers": {
+          "Authorization": "Bearer jwt_token"
+        },
+        "response": {
+          "success": true,
+          "data": [
+            {
+              "id": 1,
+              "idConfigAbsence": 1,
+              "idUserDemandeur": 2,
+              "idUserValidateur": 1,
+              "dateDemande": "2026-05-09T10:00:00.000Z",
+              "dateDebutAbsence": "2026-05-15",
+              "dateFinAbsence": "2026-05-16",
+              "nombreJours": 2,
+              "typeJournee": "JOURNEE",
+              "statut": "ATTENTE",
+              "priorite": "NORMALE",
+              "motif": "Raison personnelle",
+              "commentaireValidateur": null,
+              "vueParValidateur": false,
+              "demandeur": {
+                "id": 2,
+                "nom": "Dupont",
+                "prenom": "Marie",
+                "email": "marie@societe.mg"
+              },
+              "configAbsence": {
+                "id": 1,
+                "typeAbsence": "CONGE",
+                "libelle": "Congé annuel",
+                "joursAutorises": 30,
+                "estActif": true
+              }
+            }
+          ]
+        }
+      },
+      "validerDemande": {
+        "method": "PUT",
+        "url": "/absences/valider/:id",
+        "description": "Valider ou refuser une demande d'absence",
+        "headers": {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer jwt_token"
+        },
+        "body": {
+          "statut": "VALIDE",
+          "commentaireValidateur": "Approuvé"
+        },
+        "response": {
+          "success": true,
+          "message": "Demande validée avec succès",
+          "data": {
+            "id": 1,
+            "statut": "VALIDE",
+            "commentaireValidateur": "Approuvé",
+            "vueParValidateur": true
+          }
+        }
+      },
+      "configurations": {
+        "method": "GET",
+        "url": "/absences/configurations",
+        "description": "Récupérer les configurations d'absence disponibles",
+        "headers": {
+          "Authorization": "Bearer jwt_token"
+        },
+        "response": {
+          "success": true,
+          "data": [
+            {
+              "id": 1,
+              "typeAbsence": "CONGE",
+              "libelle": "Congé annuel",
+              "joursAutorises": 30,
+              "estActif": true
+            },
+            {
+              "id": 2,
+              "typeAbsence": "OFF",
+              "libelle": "Congé compensatoire",
+              "joursAutorises": 2,
+              "estActif": true
+            }
+          ]
+        }
+      }
+    },
+    "notifications": {
+      "subscribe": {
+        "method": "GET",
+        "url": "/notifications/subscribe",
+        "description": "Souscrire au flux de notifications temps réel (SSE)",
+        "headers": {
+          "Authorization": "Bearer jwt_token"
+        },
+        "response": {
+          "description": "Flux Server-Sent Events avec les notifications",
+          "format": "data: {JSON}\n\n",
+          "example": "data: {\"id\":1,\"title\":\"Nouvelle demande\",\"message\":\"...\",\"isLu\":false,\"createdAt\":\"2026-05-09T10:00:00.000Z\"}\n\n"
+        }
+      },
+      "lister": {
+        "method": "GET",
+        "url": "/notifications",
+        "description": "Récupérer la liste des notifications de l'utilisateur",
+        "headers": {
+          "Authorization": "Bearer jwt_token"
+        },
+        "response": {
+          "success": true,
+          "data": [
+            {
+              "id": 1,
+              "idUser": 1,
+              "type": "INFO",
+              "title": "Nouvelle demande d'absence",
+              "message": "Nouvelle demande de CONGE de Dupont Marie",
+              "payload": {
+                "absenceId": 1
+              },
+              "isLu": false,
+              "createdAt": "2026-05-09T10:00:00.000Z",
+              "updatedAt": "2026-05-09T10:00:00.000Z"
+            }
+          ]
+        }
+      },
+      "marquerLu": {
+        "method": "PUT",
+        "url": "/notifications/:id/lu",
+        "description": "Marquer une notification comme lue (met aussi à jour vueParValidateur si c'est une absence)",
+        "headers": {
+          "Authorization": "Bearer jwt_token"
+        },
+        "response": {
+          "success": true,
+          "message": "Notification marquée comme lue",
+          "data": {
+            "id": 1,
+            "isLu": true,
+            "updatedAt": "2026-05-09T10:05:00.000Z"
+          }
+        }
       }
     },
     "health": {

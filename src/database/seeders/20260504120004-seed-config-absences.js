@@ -13,7 +13,7 @@ module.exports = {
       },
       {
         typeAbsence: 'CONGE',
-        joursAutorises: 2.5,  // Note: MySQL DECIMAL, mais INTEGER dans migration ? Attends, dans migration c'est INTEGER
+        joursAutorises: 2.5,
         joursAvantAutorisation: 6,
         estActif: true,
         createdAt: new Date(),
