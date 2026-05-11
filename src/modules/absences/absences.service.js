@@ -13,7 +13,7 @@ const notificationService = require('../notifications/notification.service');
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
 function _parseDateOnly(value) {
-  const date = new Date(`${value}T00:00:00Z`);
+  const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
     throw ApiError.badRequest('Date invalide');
   }
@@ -83,6 +83,34 @@ async function _verifierQuotaOff(idUser, dateDebutAbsence, nombreJours) {
   }
 }
 
+async function _checkChevauchementDm(idUser, dateDebutAbsence, dateFinAbsence) {
+    const debut = _parseDateOnly(dateDebutAbsence);
+    const fin = _parseDateOnly(dateFinAbsence);
+
+    const chevauchement = await EmpAbsence.findOne({
+        where: {
+            idUserDemandeur: idUser,
+            statut: { [Op.not]: 'REFUSE' },
+            [Op.or]: [
+                {
+                    dateDebutAbsence: { [Op.between]: [debut.toISOString().slice(0, 10), fin.toISOString().slice(0, 10)] }
+                },
+                {
+                    dateFinAbsence: { [Op.between]: [debut.toISOString().slice(0, 10), fin.toISOString().slice(0, 10)] }
+                },
+                {
+                    dateDebutAbsence: { [Op.lte]: debut.toISOString().slice(0, 10) },
+                    dateFinAbsence: { [Op.gte]: fin.toISOString().slice(0, 10) }
+                }
+            ]
+        }
+    });
+
+    if (chevauchement) {
+        throw ApiError.conflict('Chevauchement avec une autre demande d\'absence existante');
+    }
+}
+
 function _estManagerDe(demandeur, manager) {
   return demandeur.idManager === manager.id || manager.rang.niveau === 1;
 }
@@ -113,6 +141,7 @@ async function recupererConfigurations() {
 }
 
 async function creerDemande(user, payload) {
+  await _checkChevauchementDm(user.id, payload.dateDebutAbsence, payload.dateFinAbsence);
   const configAbsence = await ConfigAbsence.findOne({
     where: { id: payload.idConfigAbsence, estActif: true },
   });

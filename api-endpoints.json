@@ -294,8 +294,8 @@
         },
         "body": {
           "idConfigAbsence": 1,
-          "dateDebutAbsence": "2026-05-15",
-          "dateFinAbsence": "2026-05-16",
+          "dateDebutAbsence": "2026/05/15",
+          "dateFinAbsence": "2026/05/16",
           "typeJournee": "JOURNEE",
           "motif": "Raison personnelle"
         },
