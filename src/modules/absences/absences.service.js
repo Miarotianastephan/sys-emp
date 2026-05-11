@@ -83,6 +83,17 @@ async function _verifierQuotaOff(idUser, dateDebutAbsence, nombreJours) {
   }
 }
 
+async function _checkJoursAvantAutorisation(dateDebutAbsence, joursAvantAutorisation) {
+  const today = _parseDateOnly(getTodayLocalDateOnly());
+  const debut = _parseDateOnly(dateDebutAbsence);
+  const diffDays = Math.floor(( debut.getTime() - today.getTime()) / ONE_DAY_MS);
+  if (diffDays < joursAvantAutorisation) {
+    throw ApiError.badRequest(
+      `Cette absence doit être demandée au moins ${joursAvantAutorisation} jours à l'avance`
+    );
+  }
+}
+
 async function _checkChevauchementDm(idUser, dateDebutAbsence, dateFinAbsence) {
     const debut = _parseDateOnly(dateDebutAbsence);
     const fin = _parseDateOnly(dateFinAbsence);
@@ -141,10 +152,12 @@ async function recupererConfigurations() {
 }
 
 async function creerDemande(user, payload) {
+
   await _checkChevauchementDm(user.id, payload.dateDebutAbsence, payload.dateFinAbsence);
   const configAbsence = await ConfigAbsence.findOne({
     where: { id: payload.idConfigAbsence, estActif: true },
   });
+  await _checkJoursAvantAutorisation(payload.dateDebutAbsence, configAbsence.joursAvantAutorisation);
   if (!configAbsence) {
     throw ApiError.notFound('Type d\'absence introuvable');
   }
