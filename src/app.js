@@ -13,8 +13,8 @@ const presenceRoutes = require('./modules/presence/presence.routes');
 const absencesRoutes = require('./modules/absences/absences.routes');
 const notificationsRoutes = require('./modules/notifications/notification.routes');
 const ferierRoutes = require('./modules/ferier/ferier.routes');
+const taskRoutes   = require('./modules/tasks/task.routes');
 // const userRoutes   = require('./modules/users/user.routes');    // à venir
-// const presenceRoutes = require('./modules/presence/presence.routes');
 
 const app = express();
 
@@ -37,8 +37,8 @@ app.use('/api/presence', presenceRoutes);
 app.use('/api/absences', absencesRoutes);
 app.use('/api/notifications', notificationsRoutes);
 app.use('/api/feriers', ferierRoutes);
+app.use('/api/tasks',   taskRoutes);
 // app.use('/api/users',    userRoutes);
-// app.use('/api/presence', presenceRoutes);
 
 // ── Health check ──────────────────────────────────────────
 app.get('/api/health', (req, res) => {

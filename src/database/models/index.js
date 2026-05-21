@@ -19,6 +19,8 @@ const ConfirmHeureSupp      = require('./confirmHeureSupp.model');
 const ConfigEmpPoint        = require('./configEmpPoint.model');
 const EmpPoint              = require('./empPoint.model');
 const Notification          = require('./notification.model');
+const ConfigTask            = require('./configTask.model');
+const EmpTask               = require('./empTask.model');
 
 // ── Associations ───────────────────────────────────────────
 
@@ -110,6 +112,20 @@ EmpPoint.belongsTo(User, { foreignKey: 'idUser', as: 'user' });
 User.hasMany(Notification, { foreignKey: 'idUser', as: 'notifications' });
 Notification.belongsTo(User, { foreignKey: 'idUser', as: 'user' });
 
+// ── Tasks ─────────────────────────────────────────────────────
+
+// ConfigTask → EmpTask (One-to-Many)
+ConfigTask.hasMany(EmpTask, { foreignKey: 'idConfigTask', as: 'taches' });
+EmpTask.belongsTo(ConfigTask, { foreignKey: 'idConfigTask', as: 'config' });
+
+// User (assigné) → EmpTask (One-to-Many)
+User.hasMany(EmpTask, { foreignKey: 'idUserAssigne',  as: 'tachesAssignees' });
+EmpTask.belongsTo(User, { foreignKey: 'idUserAssigne',  as: 'assigne'  });
+
+// User (créateur) → EmpTask (One-to-Many)
+User.hasMany(EmpTask, { foreignKey: 'idUserCreateur', as: 'tachesCreees'   });
+EmpTask.belongsTo(User, { foreignKey: 'idUserCreateur', as: 'createur' });
+
 module.exports = {
   sequelize,
   Rang,
@@ -128,4 +144,6 @@ module.exports = {
   ConfigEmpPoint,
   EmpPoint,
   Notification,
+  ConfigTask,
+  EmpTask,
 };

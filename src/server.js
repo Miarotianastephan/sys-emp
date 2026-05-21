@@ -3,8 +3,10 @@
 const app                    = require('./app');
 const env                    = require('./config/env');
 const { testConnection, sequelize } = require('./config/db');
+const { checkAndUpdateLateTasks }   = require('./modules/tasks/task.service');
 
 let server;
+let lateTaskInterval;
 
 async function start() {
   // Vérifie la connexion MySQL avant de démarrer le serveur
@@ -14,6 +16,11 @@ async function start() {
     console.log(`🚀 Serveur démarré sur http://localhost:${env.port}`);
     console.log(`📦 Environnement : ${env.nodeEnv}`);
   });
+
+  // Mark overdue tasks on startup then every hour
+  await checkAndUpdateLateTasks();
+  lateTaskInterval = setInterval(checkAndUpdateLateTasks, 60 * 60 * 1000);
+  lateTaskInterval.unref();
 
   server.on('error', (err) => {
     if (err.code === 'EADDRINUSE') {
@@ -25,6 +32,7 @@ async function start() {
   });
 
   const cleanup = async () => {
+    if (lateTaskInterval) clearInterval(lateTaskInterval);
     try {
       await sequelize.close();
       console.log('✅ Connexion Sequelize fermée');

@@ -16,7 +16,7 @@ router.use(authenticate);
 router.get(
   '/',
   validate(listQuerySchema, 'query'),
-  ferierController.list
+  ferierController.listFerier
 );
 
 router.get(
