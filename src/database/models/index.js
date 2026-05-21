@@ -21,6 +21,8 @@ const EmpPoint              = require('./empPoint.model');
 const Notification          = require('./notification.model');
 const ConfigTask            = require('./configTask.model');
 const EmpTask               = require('./empTask.model');
+const ConfigBonusPenalite   = require('./configBonusPenalite.model');
+const EmpBonusPenalite      = require('./empBonusPenalite.model');
 
 // ── Associations ───────────────────────────────────────────
 
@@ -126,6 +128,17 @@ EmpTask.belongsTo(User, { foreignKey: 'idUserAssigne',  as: 'assigne'  });
 User.hasMany(EmpTask, { foreignKey: 'idUserCreateur', as: 'tachesCreees'   });
 EmpTask.belongsTo(User, { foreignKey: 'idUserCreateur', as: 'createur' });
 
+// ── Bonus / Pénalités ─────────────────────────────────────────────────────────
+
+ConfigBonusPenalite.hasMany(EmpBonusPenalite, { foreignKey: 'idConfig',        as: 'applications'        });
+EmpBonusPenalite.belongsTo(ConfigBonusPenalite, { foreignKey: 'idConfig',      as: 'config'              });
+
+User.hasMany(EmpBonusPenalite, { foreignKey: 'idUser',         as: 'bonusPenalites'      });
+EmpBonusPenalite.belongsTo(User, { foreignKey: 'idUser',       as: 'employe'             });
+
+User.hasMany(EmpBonusPenalite, { foreignKey: 'idUserCreateur', as: 'bonusPenalitesCreees' });
+EmpBonusPenalite.belongsTo(User, { foreignKey: 'idUserCreateur', as: 'createurBonus'      });
+
 module.exports = {
   sequelize,
   Rang,
@@ -146,4 +159,6 @@ module.exports = {
   Notification,
   ConfigTask,
   EmpTask,
+  ConfigBonusPenalite,
+  EmpBonusPenalite,
 };
