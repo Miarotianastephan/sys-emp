@@ -60,7 +60,7 @@ async function calculateMonthlyBonuses(idUser, mois, annee, idUserCreateur) {
       else if (score >= 70) multiplier = 0.50;
     }
 
-    if (multiplier === 0) continue;
+    if (multiplier === 0) continue; // AUCUN BONUS N'AS ETE ATTRIBUE 
 
     const montant = await _computeMontant(config, multiplier, idUser);
     if (montant <= 0) continue;
