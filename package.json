@@ -6,14 +6,27 @@
   "author": "panda",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
     "db:create": "node src/database/ensure-db.js",
     "db:migrate": "npx sequelize db:migrate",
     "db:seed": "npx sequelize db:seed:all",
     "db:setup": "node src/database/ensure-db.js && npx sequelize db:migrate && npx sequelize db:seed:all",
-    "db:reset": "node src/database/ensure-db.js && npx sequelize db:migrate:undo:all && npx sequelize db:migrate && npx sequelize db:seed:all"
+    "db:reset": "node src/database/ensure-db.js && npx sequelize db:migrate:undo:all && npx sequelize db:migrate && npx sequelize db:seed:all",
+    "test":          "jest --runInBand --forceExit",
+    "test:verbose":  "jest --runInBand --forceExit --verbose",
+    "test:auth":     "jest --runInBand --forceExit --testPathPatterns=auth",
+    "test:presence": "jest --runInBand --forceExit --testPathPatterns=presence",
+    "test:absence":  "jest --runInBand --forceExit --testPathPatterns=absence",
+    "test:ferier":   "jest --runInBand --forceExit --testPathPatterns=ferier",
+    "test:tasks":    "jest --runInBand --forceExit --testPathPatterns=tasks",
+    "test:bonus":    "jest --runInBand --forceExit --testPathPatterns=bonus",
+    "test:flow":     "jest --runInBand --forceExit --testPathPattern=flow"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": ["**/__tests__/**/*.test.js"],
+    "testTimeout": 30000
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
@@ -28,7 +41,9 @@
     "sequelize": "^6.37.8"
   },
   "devDependencies": {
+    "jest": "^30.4.2",
     "nodemon": "^3.1.14",
-    "sequelize-cli": "^6.6.5"
+    "sequelize-cli": "^6.6.5",
+    "supertest": "^7.2.2"
   }
 }

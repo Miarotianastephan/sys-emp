@@ -1,6 +1,6 @@
 'use strict';
 
-const { date } = require('joi');
+const { Op } = require('sequelize');
 const { ConfigFerier } = require('../../database/models');
 const ApiError = require('../../utils/ApiError');
 

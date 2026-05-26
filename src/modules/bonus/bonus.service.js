@@ -46,13 +46,15 @@ async function calculateMonthlyBonuses(idUser, mois, annee, idUserCreateur) {
     let multiplier = 0;
 
     if (config.categorie === 'ASSIDUITE') {
-      const taux = stats.tauxAssiduite;
+      const taux = stats.tauxAssiduite; 
+      // TO_CONFIGURE LATER AS GLOBAL CONFIGS
       if (taux >= 100)      multiplier = 1.00;
       else if (taux >= 95)  multiplier = 0.75;
       else if (taux >= 90)  multiplier = 0.50;
     }
 
     if (config.categorie === 'TACHE') {
+      // TO_CONFIGURE LATER AS GLOBAL CONFIGS
       const score = perf.scorePourcentage;
       if (score >= 90)      multiplier = 1.00;
       else if (score >= 70) multiplier = 0.50;
