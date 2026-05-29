@@ -1,6 +1,6 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const ferierController = require('./ferier.controller');
-const {authenticate, authorize} = require('../../middlewares/auth');
+const { authenticate, authorize } = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const {
     createSchema,
@@ -14,9 +14,9 @@ router.use(authenticate);
 
 // liste des jours fériés pour tout les utilisateurs 
 router.get(
-  '/',
-  validate(listQuerySchema, 'query'),
-  ferierController.listFerier
+    '/',
+    validate(listQuerySchema, 'query'),
+    ferierController.listFerier
 );
 
 router.get(
