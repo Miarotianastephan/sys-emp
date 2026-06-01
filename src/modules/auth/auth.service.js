@@ -104,4 +104,18 @@ async function getMe(userId) {
   return userData;
 }
 
-module.exports = { register, login, getMe };
+// ── Validation du mot de passe ────────────────────────────
+async function validatePassword(userId, motDePasse) {
+  const user = await User.findByPk(userId, {
+    attributes: ['id', 'motDePasse', 'estActif'],
+  });
+
+  if (!user || !user.estActif) {
+    throw ApiError.notFound('Utilisateur introuvable');
+  }
+
+  const isValid = await bcrypt.compare(motDePasse, user.motDePasse);
+  return isValid;
+}
+
+module.exports = { register, login, getMe, validatePassword };

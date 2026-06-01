@@ -22,4 +22,10 @@ const loginSchema = Joi.object({
   motDePasse: Joi.string().required(),
 });
 
-module.exports = { registerSchema, loginSchema };
+const validatePasswordSchema = Joi.object({
+  motDePasse: Joi.string().required().messages({
+    'any.required': 'Le mot de passe est requis',
+  }),
+});
+
+module.exports = { registerSchema, loginSchema, validatePasswordSchema };

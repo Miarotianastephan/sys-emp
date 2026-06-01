@@ -20,4 +20,16 @@ const getMe = asyncWrapper(async (req, res) => {
   return sendSuccess(res, user);
 });
 
-module.exports = { register, login, getMe };
+const validatePassword = asyncWrapper(async (req, res) => {
+  const { motDePasse } = req.body;
+  const isValid = await authService.validatePassword(req.user.id, motDePasse);
+
+  if (!isValid) {
+    res.status(400).json({ success: false, error: 'Mot de passe invalide' });
+  }
+
+  return sendSuccess(res, { message: 'MDP Validé' });
+});
+
+
+module.exports = { register, login, getMe, validatePassword };
