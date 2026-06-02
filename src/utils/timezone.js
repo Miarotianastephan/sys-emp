@@ -11,6 +11,7 @@ async function _getDebutTravailLocal(){
   return { heure, minute };
 }
 
+// Dif Mada vs UTC
 function getOffsetMs(date = new Date()) {
   const localeString = date.toLocaleString('en-US', {
     timeZone: TIMEZONE,

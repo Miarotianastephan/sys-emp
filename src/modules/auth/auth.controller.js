@@ -20,4 +20,22 @@ const getMe = asyncWrapper(async (req, res) => {
   return sendSuccess(res, user);
 });
 
-module.exports = { register, login, getMe };
+const getSubordonnees = asyncWrapper(async (req, res) => {
+  const users = await authService.getSubordonnees(
+    req.user.id,
+    req.user.rang.niveau
+  );
+  return sendSuccess(res, users);
+});
+
+const listeRangs = asyncWrapper(async (_req, res) => {
+  const rangs = await authService.listeRangs();
+  return sendSuccess(res, rangs);
+});
+
+const listePostes = asyncWrapper(async (_req, res) => {
+  const postes = await authService.listePostes();
+  return sendSuccess(res, postes);
+});
+
+module.exports = { register, login, getMe, getSubordonnees, listeRangs, listePostes };

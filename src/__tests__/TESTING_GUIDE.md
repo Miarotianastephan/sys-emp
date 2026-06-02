@@ -104,16 +104,16 @@ describe('Registration — POST /api/auth/register', () => {
 - **`async / await`** — the API calls take real time (they hit a database). `async` marks a function that does async work; `await` pauses until the result is ready. Without these, the test would check the response before it arrived.
 - **`supertest`** — the library that makes HTTP requests inside a test. It talks directly to the Express app in memory — no server needs to be running on port 3000.
 
-| Keyword | What it does |
-|---|---|
-| `beforeAll` | Runs once before the first test — good for setup |
-| `afterAll` | Runs once after the last test — good for cleanup |
-| `describe` | Groups related tests together under a label |
-| `test` | One specific scenario to verify |
-| `expect(...).toBe(x)` | Asserts that a value equals `x` exactly |
-| `expect(...).toHaveProperty('x')` | Asserts that a field named `x` exists |
-| `expect(...).toBeGreaterThan(0)` | Asserts a number is above zero |
-| `expect(...).not.toHaveProperty('x')` | Asserts a field is NOT present |
+| Keyword                                 | What it does                                      |
+| --------------------------------------- | ------------------------------------------------- |
+| `beforeAll`                           | Runs once before the first test — good for setup |
+| `afterAll`                            | Runs once after the last test — good for cleanup |
+| `describe`                            | Groups related tests together under a label       |
+| `test`                                | One specific scenario to verify                   |
+| `expect(...).toBe(x)`                 | Asserts that a value equals `x` exactly         |
+| `expect(...).toHaveProperty('x')`     | Asserts that a field named `x` exists           |
+| `expect(...).toBeGreaterThan(0)`      | Asserts a number is above zero                    |
+| `expect(...).not.toHaveProperty('x')` | Asserts a field is NOT present                    |
 
 ---
 
@@ -121,13 +121,14 @@ describe('Registration — POST /api/auth/register', () => {
 
 The entire suite revolves around three pre-created users, each with a different permission level.
 
-| User | Email | Password | Level | Can do |
-|---|---|---|---|---|
-| **rang1** (Admin) | `admin@test.mg` | `Test1234!` | 1 (highest) | Everything — manage all employees, calculate bonuses, create holidays |
-| **rang2** (Manager) | `manager@test.mg` | `Test1234!` | 2 | Approve leave, assign tasks to direct team, view team bonuses |
-| **rang3** (Employee) | `employe@test.mg` | `Test1234!` | 3 (lowest) | View own data only — clock in/out, submit leave, see own tasks |
+| User                       | Email               | Password      | Level       | Can do                                                                 |
+| -------------------------- | ------------------- | ------------- | ----------- | ---------------------------------------------------------------------- |
+| **rang1** (Admin)    | `admin@test.mg`   | `Test1234!` | 1 (highest) | Everything — manage all employees, calculate bonuses, create holidays |
+| **rang2** (Manager)  | `manager@test.mg` | `Test1234!` | 2           | Approve leave, assign tasks to direct team, view team bonuses          |
+| **rang3** (Employee) | `employe@test.mg` | `Test1234!` | 3 (lowest)  | View own data only — clock in/out, submit leave, see own tasks        |
 
 **Hierarchy:**
+
 ```
 rang1 (admin)
   └── rang2 (manager)
@@ -213,6 +214,7 @@ FAIL src/__tests__/ferier.test.js
 ```
 
 How to read this:
+
 - **`FAIL src/__tests__/ferier.test.js`** — which file failed
 - **`● Liste — GET /api/feriers › filter by annee → 200`** — which `describe` › which `test`
 - **`Expected: 200 / Received: 500`** — what went wrong
@@ -220,16 +222,16 @@ How to read this:
 
 ### Status codes to know
 
-| Code | Meaning |
-|---|---|
-| `200` | OK — request succeeded |
-| `201` | Created — new record was created |
-| `400` | Bad Request — you sent invalid data |
-| `401` | Unauthorized — no token or invalid token |
-| `403` | Forbidden — logged in but no permission |
-| `404` | Not Found — resource does not exist |
+| Code    | Meaning                                       |
+| ------- | --------------------------------------------- |
+| `200` | OK — request succeeded                       |
+| `201` | Created — new record was created             |
+| `400` | Bad Request — you sent invalid data          |
+| `401` | Unauthorized — no token or invalid token     |
+| `403` | Forbidden — logged in but no permission      |
+| `404` | Not Found — resource does not exist          |
 | `409` | Conflict — duplicate (e.g. same email twice) |
-| `500` | Internal Server Error — the server crashed |
+| `500` | Internal Server Error — the server crashed   |
 
 ---
 
@@ -252,6 +254,7 @@ curl -s -X POST http://localhost:3000/api/auth/login \
 ```
 
 Expected response:
+
 ```json
 {
   "success": true,
@@ -346,6 +349,7 @@ curl -s http://localhost:3000/api/absences/equipe \
 ```
 
 Expected:
+
 ```json
 { "success": false, "error": "Accès refusé" }
 ```
@@ -357,6 +361,7 @@ curl -s http://localhost:3000/api/auth/me | jq .
 ```
 
 Expected:
+
 ```json
 { "success": false, "error": "Token manquant" }
 ```
@@ -414,6 +419,7 @@ test('manager approves it → 200', async () => {
 ### `helpers/setup.js`
 
 The central hub. Exports:
+
 - **`state`** — a shared object holding the 3 tokens and 3 user objects
 - **`authHeader(rang)`** — returns `{ Authorization: "Bearer <token>" }` for a given level
 - **`initializeTestSession()`** — creates test users + logs in all three, filling `state`
@@ -424,6 +430,7 @@ Every test file imports these four things and calls `initializeTestSession()` in
 ### `helpers/seeds.js`
 
 Creates the three test users in the database if they don't already exist:
+
 - Hashes their passwords with bcrypt
 - Sets the manager hierarchy (employe → manager → admin)
 - Seeds the bonus/penalty configuration rules
@@ -435,6 +442,7 @@ This runs automatically inside `initializeTestSession()`.
 Inserts fake attendance records directly into the database (bypasses the API). Used by `presence.test.js` and `bonus.test.js` to simulate a full month of work without making 20+ individual API calls.
 
 Key functions:
+
 - **`simulatePresenceMonth(userId, year, month, options)`** — inserts N days of attendance; first M days are marked as late
 - **`clearPresenceData(userId, year, month)`** — removes all attendance for that month
 
@@ -446,15 +454,15 @@ Closes the Sequelize database connection after all test suites complete. Without
 
 ## 10. Common failure causes and how to fix them
 
-| Symptom | Likely cause | Fix |
-|---|---|---|
-| All tests fail immediately | Database not running or wrong credentials in `.env` | Check `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME` |
-| `rangs 1/2/3 not found` error | Database was not seeded | Run `npm run db:setup` |
-| `config_absence is empty` error | Seeders did not run | Run `npm run db:seed` |
-| Login returns 401 in `beforeAll` | Test users were manually deleted | Run `npm run db:seed` (seeds re-create them) |
-| One test passes, next fails | Tests ran in parallel (not in band) | Always use `npm test`, never `jest` directly |
-| `500` on a route with a filter | Bug in service (missing import, undefined variable) | Check the server console output for the actual error |
-| `dureeTravail = 0` on clock-out | Entry and exit happened in the same minute | Not a real bug — test fixture limitation; the field still exists |
+| Symptom                            | Likely cause                                          | Fix                                                               |
+| ---------------------------------- | ----------------------------------------------------- | ----------------------------------------------------------------- |
+| All tests fail immediately         | Database not running or wrong credentials in `.env` | Check `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`      |
+| `rangs 1/2/3 not found` error    | Database was not seeded                               | Run `npm run db:setup`                                          |
+| `config_absence is empty` error  | Seeders did not run                                   | Run `npm run db:seed`                                           |
+| Login returns 401 in `beforeAll` | Test users were manually deleted                      | Run `npm run db:seed` (seeds re-create them)                    |
+| One test passes, next fails        | Tests ran in parallel (not in band)                   | Always use `npm test`, never `jest` directly                  |
+| `500` on a route with a filter   | Bug in service (missing import, undefined variable)   | Check the server console output for the actual error              |
+| `dureeTravail = 0` on clock-out  | Entry and exit happened in the same minute            | Not a real bug — test fixture limitation; the field still exists |
 
 ---
 
