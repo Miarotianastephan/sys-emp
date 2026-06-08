@@ -12,7 +12,6 @@ const {
 
 const router = Router();
 
-// Toutes les routes de présence nécessitent d'être authentifié
 router.use(authenticate);
 
 // ── Pointage ────────────────────────────────────────────────

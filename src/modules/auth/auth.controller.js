@@ -20,6 +20,24 @@ const getMe = asyncWrapper(async (req, res) => {
   return sendSuccess(res, user);
 });
 
+const getSubordonnees = asyncWrapper(async (req, res) => {
+  const users = await authService.getSubordonnees(
+    req.user.id,
+    req.user.rang.niveau
+  );
+  return sendSuccess(res, users);
+});
+
+const listeRangs = asyncWrapper(async (_req, res) => {
+  const rangs = await authService.listeRangs();
+  return sendSuccess(res, rangs);
+});
+
+const listePostes = asyncWrapper(async (_req, res) => {
+  const postes = await authService.listePostes();
+  return sendSuccess(res, postes);
+});
+
 const validatePassword = asyncWrapper(async (req, res) => {
   const { motDePasse } = req.body;
   const isValid = await authService.validatePassword(req.user.id, motDePasse);
@@ -32,4 +50,4 @@ const validatePassword = asyncWrapper(async (req, res) => {
 });
 
 
-module.exports = { register, login, getMe, validatePassword };
+module.exports = { register, login, getMe, getSubordonnees, listeRangs, listePostes, validatePassword };

@@ -101,7 +101,7 @@ async function checkAndUpdateLateTasksforUser(idUser) {
 // ── Service methods ─────────────────────────────────────────────────────────
 
 async function create(user, payload) {
-  await _assertCanAssign(user, payload.idUserAssigne);
+  // await _assertCanAssign(user, payload.idUserAssigne);
 
   const task = await EmpTask.create({
     idConfigTask:   payload.idConfigTask   ?? null,
@@ -124,12 +124,12 @@ async function update(user, id, payload) {
   const task = await EmpTask.findOne({ where: { id } });
   if (!task) throw ApiError.notFound('Tâche introuvable');
 
-  if (user.rang.niveau === 2) {
-    const teamIds = await _getTeamIds(user);
-    if (!teamIds.includes(task.idUserAssigne)) {
-      throw ApiError.forbidden('Vous ne pouvez modifier que les tâches de votre équipe');
-    }
-  }
+  // if (user.rang.niveau === 2) {
+  //   const teamIds = await _getTeamIds(user);
+  //   if (!teamIds.includes(task.idUserAssigne)) {
+  //     throw ApiError.forbidden('Vous ne pouvez modifier que les tâches de votre équipe');
+  //   }
+  // }
 
   // Validate effective date range
   const newDebut  = toDateStr(payload.dateDebut)  || toDateStr(task.dateDebut);

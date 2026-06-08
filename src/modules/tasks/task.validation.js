@@ -16,6 +16,7 @@ const createSchema = Joi.object({
 });
 
 const updateSchema = Joi.object({
+  idUserAssigne: Joi.number().integer().positive().required(),
   titre:       Joi.string().max(150),
   description: Joi.string().allow(null, ''),
   dateDebut:   Joi.date().iso(),
