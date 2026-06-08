@@ -1,4 +1,4 @@
-'use strict';
+  'use strict';
 
 const authService         = require('./auth.service');
 const { sendSuccess, sendCreated } = require('../../utils/response');
