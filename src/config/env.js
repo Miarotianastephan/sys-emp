@@ -1,5 +1,5 @@
 'use strict';
-
+const path = require('path');
 const envFile = process.env.NODE_ENV === 'production'
   ? '.env.production'
   : process.env.NODE_ENV === 'development'
