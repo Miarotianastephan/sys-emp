@@ -1,6 +1,14 @@
 'use strict';
 
-require('dotenv').config();
+const envFile = process.env.NODE_ENV === 'production'
+  ? '.env.production'
+  : process.env.NODE_ENV === 'development'
+    ? '.env.dev'
+    : '.env';
+
+require('dotenv').config({
+  path: path.resolve(process.cwd(), envFile)
+});
 
 const required = ['DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME', 'JWT_SECRET'];
 
@@ -14,7 +22,8 @@ module.exports = {
   port:    parseInt(process.env.PORT, 10) || 3000,
   nodeEnv: process.env.NODE_ENV || 'development',
   isProd:  process.env.NODE_ENV === 'production',
-
+  baseUrl: process.env.NODE_ENV == 'production' ?
+    'http://192.168.1.10' : 'http://localhost',
   db: {
     host:     process.env.DB_HOST,
     port:     parseInt(process.env.DB_PORT, 10) || 3306,

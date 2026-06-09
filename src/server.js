@@ -9,11 +9,10 @@ let server;
 let lateTaskInterval;
 
 async function start() {
-  // Vérifie la connexion MySQL avant de démarrer le serveur
   await testConnection();
-
+  const 
   server = app.listen(env.port, () => {
-    console.log(`🚀 Serveur démarré sur http://localhost:${env.port}`);
+    console.log(`🚀 Serveur démarré sur ${env.baseUrl}:${env.port}`);
     console.log(`📦 Environnement : ${env.nodeEnv}`);
   });
 
