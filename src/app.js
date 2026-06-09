@@ -17,18 +17,31 @@ const taskRoutes   = require('./modules/tasks/task.routes');
 const bonusRoutes  = require('./modules/bonus/bonus.routes');
 
 const app = express();
+// Configuration CORS
+const corsOptions = {
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:30400',
+    'http://192.168.1.10',
+    'http://192.168.1.10:30400',
+    'http://192.168.1.10:29189',
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
 
 // ── Sécurité & parsing ────────────────────────────────────
-app.use(helmet());   // headers de sécurité HTTP
-app.use(cors());     // à restreindre en production avec { origin: 'https://...' }
+app.use(helmet());  
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ── Logs HTTP ─────────────────────────────────────────────
 if (!env.isProd) {
-  app.use(morgan('dev'));          // logs colorés en développement
+  app.use(morgan('dev'));         
 } else {
-  app.use(morgan('combined'));     // logs standards en production
+  app.use(morgan('combined'));  
 }
 
 // ── Routes ────────────────────────────────────────────────
@@ -50,7 +63,7 @@ app.use((req, res) => {
   res.status(404).json({ success: false, error: `Route ${req.method} ${req.path} introuvable` });
 });
 
-// ── Gestionnaire d'erreurs global (TOUJOURS EN DERNIER) ──
+// ── Gestionnaire d'erreurs global  ──
 app.use(errorHandler);
 
 module.exports = app;
