@@ -17,7 +17,8 @@ const taskRoutes   = require('./modules/tasks/task.routes');
 const bonusRoutes  = require('./modules/bonus/bonus.routes');
 
 const app = express();
-// Configuration CORS
+
+// ── CORS ─────────────────────────────────────────────────
 const corsOptions = {
   origin: [
     'http://localhost:5173',
@@ -28,12 +29,18 @@ const corsOptions = {
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true,
 };
 
-// ── Sécurité & parsing ────────────────────────────────────
-app.use(helmet());  
+// Handle ALL preflight OPTIONS requests before anything else —
+// including before helmet(), which can otherwise interfere.
+app.options('*', cors(corsOptions));
 app.use(cors(corsOptions));
+
+// ── Sécurité & parsing ────────────────────────────────────
+app.use(helmet({
+  crossOriginResourcePolicy: { policy: 'cross-origin' }, // allow cross-origin resource loads
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
