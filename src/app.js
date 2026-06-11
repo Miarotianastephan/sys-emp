@@ -34,7 +34,7 @@ const corsOptions = {
 
 // Handle ALL preflight OPTIONS requests before anything else —
 // including before helmet(), which can otherwise interfere.
-app.options('*', cors(corsOptions));
+app.options('/{*splat}', cors(corsOptions));
 app.use(cors(corsOptions));
 
 // ── Sécurité & parsing ────────────────────────────────────
